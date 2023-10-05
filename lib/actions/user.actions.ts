@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache";
-import { User } from "../models/user.model";
+import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
 
 interface Params {
@@ -25,7 +25,9 @@ export async function updateUser({
 
     try {
         await User.findOneAndUpdate(
-            { id: userId},
+            { 
+                id: userId
+            },
             { 
                 username: username.toLowerCase(),
                 name,
@@ -33,7 +35,9 @@ export async function updateUser({
                 image,
                 onboarded: true,
             },
-            { upsert: true },
+            { 
+                upsert: true 
+            },
         );
     
         if (path === '/profile/edit') {
@@ -41,5 +45,20 @@ export async function updateUser({
         }
     } catch (error: any) {
         throw new Error(`Failed to update user: ${error.message}`);
+    }
+}
+
+export async function fetchUser(userId: string) {
+    try {
+        connectToDB();
+
+        return await User
+            .findOne({ id: userId })
+            // .populate({
+            //     path: 'communities',
+            //     model: Community
+            // });
+    } catch (error: any) {
+        throw new Error(`Failed to fetch user: ${error.message}`);
     }
 }
