@@ -26,7 +26,7 @@ export async function createThread({
     
         // Update user model
         await User.findByIdAndUpdate(author, {
-            $push: { thread: createThread._id }
+            $push: { thread: createdThread._id }
         })
     
         revalidatePath(path);
@@ -111,5 +111,40 @@ export async function fetchThreadById(id: string) {
             return thread;
     } catch (error: any) {
         throw new Error(`Failed to fetch thread: ${error.message}`);
+    }
+}
+
+export async function addCommentToThread(
+    threadId: string,
+    commentText: string,
+    userId: string,
+    path: string,
+) {
+    connectToDB();
+
+    try {
+        const originalThread = await Thread.findById(threadId);
+
+        if(!originalThread) {
+            throw new Error("Thread not found");
+        }
+
+        // Create a new thread with the comment text
+        const commentThread = new Thread({
+            text: commentText,
+            author: userId,
+            parentId: threadId,
+        })
+
+        // Save the new thread
+        const savedCommentThread = await commentThread.save();
+
+        originalThread.children.push(savedCommentThread._id);
+
+        await originalThread.save();
+
+        revalidatePath(path);
+    } catch (error: any) {
+        throw new Error(`Failed to add comment to thread: ${error.message}`);
     }
 }
