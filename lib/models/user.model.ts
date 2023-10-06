@@ -6,10 +6,10 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     image: { type: String },
     bio: { type: String },
-    posts: [
+    threads: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Post'
+            ref: 'Thread'
         }
     ],
     onboarded: {
