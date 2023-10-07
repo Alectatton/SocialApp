@@ -68,9 +68,6 @@ export async function fetchUserPosts(userId: string) {
     try {
         connectToDB();
 
-        console.log("Hello")
-        console.log(userId)
-
         return await User.findOne({ id: userId }).populate({
                 path: "threads",
                 model: Thread,

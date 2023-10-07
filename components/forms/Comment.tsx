@@ -47,7 +47,7 @@ const Comment = ({
             threadId,
             values.thread,
             JSON.parse(currentUserId),
-            pathname
+            pathname,
         );
 
         form.reset();

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
+import mongoose, { Types } from "mongoose";
 
 interface Params {
     text: string;
@@ -23,13 +24,16 @@ export async function createThread({
             author,
             community: null,
         });
-    
-        // Update user model
-        await User.findByIdAndUpdate(author, {
+
+        const ObjectId = Types.ObjectId;
+        const authorId: Types.ObjectId = new ObjectId(author);
+
+        await User.findByIdAndUpdate(authorId, {
             $push: { 
-                threads: createdThread._id 
+                threads: createdThread._id
             }
         })
+
     
         revalidatePath(path);
     } catch (error: any) {
