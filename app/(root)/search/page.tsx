@@ -1,10 +1,6 @@
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation"; 
 import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
-import PostThread from "@/components/forms/PostThread";
-import ProfileHeader from "@/components/shared/ProfileHeader";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Image from "next/image";
 import UserCard from "@/components/cards/UserCard";
 
 const Page = async () => {

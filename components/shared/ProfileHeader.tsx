@@ -41,7 +41,7 @@ const ProfileHeader = ({
                     </div>
                 </div>
             </div>
-            {/* TODO */}
+            {/* TODO: Fix account profile nav link */}
             <p className="mt-6 max-w-lg text-base-regular text-light-2">
                 {bio}
             </p>

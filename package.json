@@ -39,6 +39,8 @@
   },
   "devDependencies": {
     "@types/mongodb": "^4.0.7",
-    "@types/mongoose": "^5.11.97"
+    "@types/mongoose": "^5.11.97",
+    "eslint": "8.51.0",
+    "eslint-config-next": "13.5.4"
   }
 }
