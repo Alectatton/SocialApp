@@ -11,8 +11,6 @@ interface Props {
 const ThreadsTab = async ({ currentUserId, accountId, accountType}: Props) => {
     let result = await fetchUserPosts(accountId);
 
-    console.log(result);
-
     if(!result) redirect('/');
 
     if(!result.threads) return (<p>This user has not posted yet</p>)

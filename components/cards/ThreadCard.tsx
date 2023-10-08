@@ -30,6 +30,11 @@ const ThreadCard = ({
     comments,
     isComment,
 }: Props) => {
+    const commentAuthorsImages = comments.map(comment => comment.author.image);
+    const uniqueAuthorImages = commentAuthorsImages.filter(
+        (image, index) => commentAuthorsImages.indexOf(image) === index
+    );
+
     return (
         <article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7 py-2' : 'bg-dark-2 p-7'}`}>
             <div className="flex items-start justify-between">
@@ -68,46 +73,66 @@ const ThreadCard = ({
                                     height={24} 
                                     className="cursor-pointer object-contain"
                                 />
+                                {
+                                    !isComment && (
+                                        <Link href={`/thread/${id}`}>
+                                            <Image 
+                                                src="/assets/reply.svg" 
+                                                alt="reply" 
+                                                width={24} 
+                                                height={24} 
+                                                className="cursor-pointer object-contain"
+                                            />
+                                        </Link>
+                                    )
+                                }
 
-                                <Link href={`/thread/${id}`}>
-                                    <Image 
-                                        src="/assets/reply.svg" 
-                                        alt="reply" 
-                                        width={24} 
-                                        height={24} 
-                                        className="cursor-pointer object-contain"
-                                    />
-                                </Link>
                             </div>
+                            
+                            <div className="flex items-center">
+                            {
+                                !isComment && uniqueAuthorImages.length > 0 && (
+                                    <div className="flex">
+                                        {
+                                            uniqueAuthorImages.map((image, index) => (
+                                                <Image 
+                                                    key={index}
+                                                    src={image} 
+                                                    alt="comment author" 
+                                                    width={24} 
+                                                    height={24} 
+                                                    className="cursor-pointer object-contain rounded-full"
+                                                />
+                                            ))
+                                        }
+                                    </div>
+                                )
+                            }
 
                             {
-                                isComment && comments.length > 0 && (
+                                !isComment && comments.length > 0 && (
                                     <Link href={`/thread/${id}`}>
-                                        <p className="mt-1 text-subtle-medium text-gray-1">
+                                        <p className="ml-2 mt-1 text-subtle-medium text-gray-1">
                                             {comments.length} replies
                                         </p>
                                     </Link>
                                 )
                             }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            { !isComment && (
+                <p className="mx-5 text-subtle-medium text-gray-1 mt-5">
+                    {new Date(createdAt).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' })}
+                    {' - '}
+                    {new Date(createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                </p>
+            )}
 
-            <p className="mr-2 text-subtle-medium text-gray-1 mt-5 ml-5">
-                {new Date(createdAt).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' })}
-                {' - '}
-                {new Date(createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-            </p>
 
-            {/* TODO: delete */}
-            {/* TODO: show comment logos */}
-            {/* TODO: Implement search bar */}
-            {/* TODO: Implement suggested users */}
-
-            <div>
-
-            </div>
+            {/* TODO: Implement delete functionality */}
         </article>
     )
 }

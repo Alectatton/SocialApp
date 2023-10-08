@@ -1,19 +1,21 @@
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation"; 
 import { fetchUser } from "@/lib/actions/user.actions";
-import PostThread from "@/components/forms/PostThread";
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { profileTabs } from "@/constants";
 import Image from "next/image";
 import ThreadsTab from "@/components/shared/ThreadsTab";
+// import { useRouter } from "next/router";
 
 const Page = async ({ params }: { params: { id:string }}) => {
+    // const router = useRouter();
     const user = await currentUser();
+    const userProfileId = params.id;
 
     if(!user) return null;
 
-    const userInfo = await fetchUser(user.id);
+    const userInfo = await fetchUser(userProfileId);
 
     if(!userInfo?.onboarded) redirect('/onboarding');
 
