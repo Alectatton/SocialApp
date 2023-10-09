@@ -152,3 +152,24 @@ export async function addCommentToThread(
         throw new Error(`Failed to add comment to thread: ${error.message}`);
     }
 }
+
+export async function deleteThreadById(
+    id: string,
+    path: string, 
+) {
+    try {
+        connectToDB();
+
+        const thread = await Thread.findById(id);
+
+        if(!thread) {
+            throw new Error("Thread not found");
+        }
+
+        await thread.deleteOne();
+
+        revalidatePath(path);
+    } catch (error: any) {
+        throw new Error(`Failed to delete thread: ${error.message}`);
+    }
+}

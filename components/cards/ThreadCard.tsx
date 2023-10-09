@@ -1,5 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const DeleteThreadButton = dynamic(() => import("@/components/forms/DeleteThreadButton"), {
+    ssr: false,
+});
 
 interface Props {
     id: string;
@@ -34,6 +39,8 @@ const ThreadCard = ({
     const uniqueAuthorImages = commentAuthorsImages.filter(
         (image, index) => commentAuthorsImages.indexOf(image) === index
     );
+
+    const threadId = id.toString();
 
     return (
         <article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7 py-2' : 'bg-dark-2 p-7'}`}>
@@ -123,15 +130,24 @@ const ThreadCard = ({
                     </div>
                 </div>
             </div>
-            { !isComment && (
-                <p className="mx-5 text-subtle-medium text-gray-1 mt-5">
-                    {new Date(createdAt).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' })}
-                    {' - '}
-                    {new Date(createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-                </p>
-            )}
 
+            <div className="flex justify-between">
+                { !isComment && (
+                    <p className="mx-5 text-subtle-medium text-gray-1 mt-5">
+                        {new Date(createdAt).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' })}
+                        {' - '}
+                        {new Date(createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                )}
 
+                {
+                    currentUserId == author.id && !isComment && (
+                        <DeleteThreadButton 
+                            threadId={threadId}
+                        />
+                    )
+                }
+            </div>
             {/* TODO: Implement delete functionality */}
         </article>
     )
