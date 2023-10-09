@@ -4,7 +4,6 @@ import { sidebarLinks } from "@/constants"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { deleteThreadById } from "@/lib/actions/thread.actions"
 
 import { SignOutButton, SignedIn, useAuth } from "@clerk/nextjs"
 
@@ -13,7 +12,7 @@ function LeftSidebar() {
     const router = useRouter()
     const pathname = usePathname()
     const { userId } = useAuth();
-    
+
     return (
         <section className="leftsidebar custom-scrollbar">
             <div className="flex w-full flex-1 flex-col gap-6 px-6">
@@ -26,7 +25,7 @@ function LeftSidebar() {
                         <Link 
                             href={link.route}
                             key={link.label}
-                            className={`leftsidebar_link ${isActive && 'bg-primary-500'}`}>
+                            className={`leftsidebar_link ${isActive && 'bg-primary-500'} ${!isActive && 'opacity-75 hover:opacity-100 transition-opacity'}`}>
                             <Image 
                                 src={link.imgURL}
                                 alt={link.label}
@@ -48,7 +47,7 @@ function LeftSidebar() {
                     <SignOutButton signOutCallback={
                         () => router.push("/sign-in")
                     }>
-                        <div className="flex cursor-pointer gap-4 p-4">
+                        <div className="flex cursor-pointer gap-4 p-4 opacity-75 hover:opacity-100 transition-opacity">
                             <Image
                                 src="/assets/logout.svg"
                                 alt="logout"

@@ -6,10 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { profileTabs } from "@/constants";
 import Image from "next/image";
 import ThreadsTab from "@/components/shared/ThreadsTab";
-// import { useRouter } from "next/router";
 
 const Page = async ({ params }: { params: { id:string }}) => {
-    // const router = useRouter();
     const user = await currentUser();
     const userProfileId = params.id;
 

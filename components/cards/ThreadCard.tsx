@@ -73,13 +73,15 @@ const ThreadCard = ({
                         <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
                             <div className="flex gap-3.5">
                                 { /** TODO: Implement like functionality */}
+                                {/* TODO: Implement "Replies" tab on profile page */}
                                 <Image 
                                     src="/assets/heart-gray.svg" 
                                     alt="heart" 
                                     width={24} 
                                     height={24} 
-                                    className="cursor-pointer object-contain"
+                                    className="cursor-pointer object-contain opacity-50 hover:opacity-100 transition-opacity"
                                 />
+
                                 {
                                     !isComment && (
                                         <Link href={`/thread/${id}`}>
@@ -88,7 +90,7 @@ const ThreadCard = ({
                                                 alt="reply" 
                                                 width={24} 
                                                 height={24} 
-                                                className="cursor-pointer object-contain"
+                                                className="cursor-pointer object-contain opacity-50 hover:opacity-100 transition-opacity"
                                             />
                                         </Link>
                                     )
@@ -119,7 +121,7 @@ const ThreadCard = ({
                             {
                                 !isComment && comments.length > 0 && (
                                     <Link href={`/thread/${id}`}>
-                                        <p className="ml-2 mt-1 text-subtle-medium text-gray-1">
+                                        <p className="ml-2 mt-1 text-subtle-medium text-gray-1 hover:text-gray-400">
                                             {comments.length} replies
                                         </p>
                                     </Link>
@@ -148,7 +150,6 @@ const ThreadCard = ({
                     )
                 }
             </div>
-            {/* TODO: Implement delete functionality */}
         </article>
     )
 }
