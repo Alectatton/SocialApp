@@ -173,3 +173,32 @@ export async function deleteThreadById(
         throw new Error(`Failed to delete thread: ${error.message}`);
     }
 }
+
+export async function likeThreadById(
+    threadId: string,
+    userId: string,
+    path: string,
+) {
+    try {
+        connectToDB();
+
+        const thread = await Thread.findById(threadId);
+        const user = await User.findById(userId);
+
+        if(!thread) {
+            throw new Error("Thread not found");
+        }
+
+
+    } catch (error: any) {
+        throw new Error(`Failed to like thread: ${error.message}`);
+    }
+}
+
+export async function unlikeThreadById(
+    threadId: string,
+    userId: string,
+    path: string,
+) {
+
+}
