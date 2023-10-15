@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import LikeButton from "../forms/LikeButton";
+import { fetchUser } from "@/lib/actions/user.actions";
 
 const DeleteThreadButton = dynamic(() => import("@/components/forms/DeleteThreadButton"), {
     ssr: false,
@@ -23,6 +25,8 @@ interface Props {
         }
     }[];
     isComment?: boolean;
+    likedBy: string[];
+    currentUserObjectId: string;
 }
 
 const ThreadCard = ({
@@ -34,6 +38,8 @@ const ThreadCard = ({
     createdAt,
     comments,
     isComment,
+    likedBy,
+    currentUserObjectId,
 }: Props) => {
     const commentAuthorsImages = comments.map(comment => comment.author.image);
     const uniqueAuthorImages = commentAuthorsImages.filter(
@@ -41,6 +47,8 @@ const ThreadCard = ({
     );
 
     const threadId = id.toString();
+
+    const isLiked = likedBy.includes(currentUserObjectId);
 
     return (
         <article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7 py-2' : 'bg-dark-2 p-7'}`}>
@@ -52,7 +60,7 @@ const ThreadCard = ({
                                 src={author.image}
                                 alt="Profile image"
                                 fill
-                                className="cursor-pointed rounded-full"
+                                className="cursor-pointer rounded-full"
                             />
                         </Link>
 
@@ -73,13 +81,12 @@ const ThreadCard = ({
                         <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
                             <div className="flex gap-3.5">
                                 { /** TODO: Implement like functionality */}
-                                {/* TODO: Implement "Replies" tab on profile page */}
-                                <Image 
-                                    src="/assets/heart-gray.svg" 
-                                    alt="heart" 
-                                    width={24} 
-                                    height={24} 
-                                    className="cursor-pointer object-contain opacity-50 hover:opacity-100 transition-opacity"
+                                { /** TODO: Implement "Replies" tab on profile page */ }
+
+                                <LikeButton 
+                                    threadId={threadId}
+                                    userId={currentUserId}
+                                    isLiked={isLiked}
                                 />
 
                                 {

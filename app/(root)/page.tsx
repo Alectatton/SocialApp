@@ -1,10 +1,13 @@
 import { fetchPosts } from "@/lib/actions/thread.actions";
 import { currentUser } from "@clerk/nextjs";
+import { fetchUser } from "@/lib/actions/user.actions";
 import ThreadCard from "@/components/cards/ThreadCard";
 
 export default async function Home() {
     const posts = await fetchPosts(1, 30);
     const user = await currentUser();
+    const userInfo = await fetchUser(user?.id || "");
+    const currentUserObjectId = userInfo?._id;
 
     return (
         <>
@@ -27,6 +30,8 @@ export default async function Home() {
                                         author={post.author}
                                         createdAt={post.createdAt}
                                         comments={post.children}
+                                        likedBy={post.likedBy}
+                                        currentUserObjectId={currentUserObjectId}
                                     />
                             ))}
                         </>

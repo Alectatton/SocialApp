@@ -14,6 +14,7 @@ const Page = async ({ params }: { params: { id:string }}) => {
 
     const userInfo = await fetchUser(user.id);
     if(!userInfo?.onboarded) redirect('/onboarding');
+    const currentUserObjectId = userInfo?._id;
 
     const thread = await fetchThreadById(params.id);
 
@@ -29,6 +30,8 @@ const Page = async ({ params }: { params: { id:string }}) => {
                 author={thread.author}
                 createdAt={thread.createdAt}
                 comments={thread.children}
+                likedBy={thread.likedBy}
+                currentUserObjectId={currentUserObjectId}
             />
         </div>
 
@@ -52,6 +55,8 @@ const Page = async ({ params }: { params: { id:string }}) => {
                     createdAt={childItem.createdAt}
                     comments={childItem.children}
                     isComment
+                    likedBy={childItem.likedBy}
+                    currentUserObjectId={currentUserObjectId}
                 />
             ))}
         </div>

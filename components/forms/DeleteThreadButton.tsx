@@ -12,7 +12,7 @@ const DeleteThreadButton: React.FC<Props> = ({ threadId }) => {
     const pathname = usePathname();
 
     const handleDeleteThread = async () => {
-        await deleteThreadById(threadId, pathname );
+        await deleteThreadById(threadId, pathname);
     }
 
     return (

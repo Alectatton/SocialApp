@@ -183,13 +183,35 @@ export async function likeThreadById(
         connectToDB();
 
         const thread = await Thread.findById(threadId);
-        const user = await User.findById(userId);
+        const user = await User.findOne({userId});
+
+        console.log("Thread: ", thread, " User: ", user);
 
         if(!thread) {
             throw new Error("Thread not found");
         }
 
+        if(!user) {
+            throw new Error("User not found");
+        }
 
+        const isLiked = thread.likedBy.includes(user._id);
+
+        if(isLiked) {
+            thread.likedBy.pull(user._id);
+
+            await thread.save();
+            revalidatePath(path);
+
+            return;
+        }
+
+        thread.likedBy.push(user._id);
+
+        await thread.save();
+        revalidatePath(path);
+
+        return;
     } catch (error: any) {
         throw new Error(`Failed to like thread: ${error.message}`);
     }
